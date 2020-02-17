@@ -36,7 +36,7 @@ def print_general_results(result, label):
 
 
 # /--------------------------------\
-# |   id   |   product  |   type   |
+# |   id   |  product   |   type   |
 # |--------|------------|----------|
 # |   0    |  Bazooka   | portable |
 # |--------|------------|----------|
@@ -58,8 +58,7 @@ def get_input(label):
         label: str - the label before the user prompt
     """
     # TODO: try - except
-    print(label)
-    return input("Input: ")
+    return input(f"{label}: ")
 
 
 def get_inputs(labels):

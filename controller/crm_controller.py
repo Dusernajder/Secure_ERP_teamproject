@@ -1,30 +1,39 @@
+from model import util
 from model.crm import crm
 from view import terminal as view
+from model import data_manager as manager
 
 
 def list_customers():
     try:
-        with open(crm.DATAFILE) as file:
-            customers = [customer.split(';')[1] for customer in file]
-            print(customers)
-            return [customer.split(';')[1] for customer in file]
+        customers = manager.read_table_from_file(crm.DATAFILE)
+        return [customer[1] for customer in customers]
     except:
         view.print_error_message("Not implemented yet.")
 
 
 def add_customer():
     try:
-        with open(crm.DATAFILE, 'a') as file:
-            labels = ["Name", "Email", "Subscribed"]
-            data = view.get_inputs(labels)
-            line = ';'.join(data)
-            file.write('\n' + line)
+        customers = manager.read_table_from_file(crm.DATAFILE)
+        labels = ["Name", "Email", "Subscribed"]
+        data = view.get_inputs(labels)
+        data.insert(0, util.generate_id())
+        customers.append(data)
+        # print(customers)
+        manager.write_table_to_file(crm.DATAFILE, customers)
     except:
         view.print_error_message("Not implemented yet.")
 
 
 def update_customer():
-    view.print_error_message("Not implemented yet.")
+    try:
+        customers = manager.read_table_from_file(crm.DATAFILE)
+        name = view.get_input('Name')
+        list_options = ['email', 'subscription']
+        view.print_menu('Options', list_options)
+        option = int(view.get_input('Select module')) + 2
+    except:
+        view.print_error_message("Not implemented yet.")
 
 
 def delete_customer():
@@ -32,7 +41,15 @@ def delete_customer():
 
 
 def get_subscribed_emails():
-    view.print_error_message("Not implemented yet.")
+    try:
+        customers = manager.read_table_from_file(crm.DATAFILE)
+        subscribed = []
+        for customer in customers:
+            if customer[3] == '1':
+                subscribed.append(customer[2])
+        print(subscribed)
+    except:
+        view.print_error_message("Not implemented yet.")
 
 
 def run_operation(option):
