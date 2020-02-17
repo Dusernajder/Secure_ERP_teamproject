@@ -2,7 +2,7 @@ from view import terminal as view
 from controller import crm_controller, sales_controller, hr_controller
 
 
-def load_module(option):
+def load_module(option: int):
     if option == 1:
         crm_controller.menu()
     elif option == 2:

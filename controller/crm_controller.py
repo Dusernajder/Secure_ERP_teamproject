@@ -3,11 +3,24 @@ from view import terminal as view
 
 
 def list_customers():
-    view.print_error_message("Not implemented yet.")
+    try:
+        with open(crm.DATAFILE) as file:
+            customers = [customer.split(';')[1] for customer in file]
+            print(customers)
+            return [customer.split(';')[1] for customer in file]
+    except:
+        view.print_error_message("Not implemented yet.")
 
 
 def add_customer():
-    view.print_error_message("Not implemented yet.")
+    try:
+        with open(crm.DATAFILE, 'a') as file:
+            labels = ["Name", "Email", "Subscribed"]
+            data = view.get_inputs(labels)
+            line = ';'.join(data)
+            file.write('\n' + line)
+    except:
+        view.print_error_message("Not implemented yet.")
 
 
 def update_customer():

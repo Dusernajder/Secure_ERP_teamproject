@@ -11,7 +11,10 @@ def print_menu(title, list_options):
         title (str): the title of the menu (first row)
         list_options (list): list of the menu options (listed starting from 1, 0th element goes to the end)
     """
-    pass
+
+    print(title)
+    for i, opt in enumerate(list_options):
+        print(f'({i}) {opt}')
 
 
 def print_message(message):
@@ -20,7 +23,7 @@ def print_message(message):
     Args:
         message: str - the message
     """
-    pass
+    print(message)
 
 
 def print_general_results(result, label):
@@ -38,7 +41,7 @@ def print_general_results(result, label):
 # |   0    |  Bazooka   | portable |
 # |--------|------------|----------|
 # |   1    | Sidewinder | missile  |
-# \-----------------------------------/
+# \--------------------------------/
 def print_table(table):
     """Prints tabular data like above.
 
@@ -54,7 +57,9 @@ def get_input(label):
     Args:
         label: str - the label before the user prompt
     """
-    pass
+    # TODO: try - except
+    print(label)
+    return input("Input: ")
 
 
 def get_inputs(labels):
@@ -63,7 +68,10 @@ def get_inputs(labels):
     Args:
         labels: list - the list of the labels to be displayed before each prompt
     """
-    pass
+    lst = []
+    for l in labels:
+        lst.append(input(f'{l}: '))
+    return lst
 
 
 def print_error_message(message):
@@ -72,4 +80,4 @@ def print_error_message(message):
     Args:
         message: str - the error message
     """
-    pass
+    print(message)
