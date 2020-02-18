@@ -9,7 +9,7 @@ def list_customers():
         customers = manager.read_table_from_file(crm.DATAFILE)
         return [customer[1] for customer in customers]
     except:
-        view.print_error_message("Not implemented yet.")
+        view.print_error_message("Something went wrong.")
 
 
 def add_customer():
@@ -22,7 +22,7 @@ def add_customer():
         # print(customers)
         manager.write_table_to_file(crm.DATAFILE, customers)
     except:
-        view.print_error_message("Not implemented yet.")
+        view.print_error_message("Something went wrong.")
 
 
 def update_customer():
@@ -32,12 +32,31 @@ def update_customer():
         list_options = ['email', 'subscription']
         view.print_menu('Options', list_options)
         option = int(view.get_input('Select module')) + 2
+
+        for customer in customers:
+            if customer[1] == name:
+                customer[option] = view.get_input(customer[option])
+
+        manager.write_table_to_file(crm.DATAFILE, customers)
     except:
-        view.print_error_message("Not implemented yet.")
+        view.print_error_message("Something went wrong.")
 
 
 def delete_customer():
-    view.print_error_message("Not implemented yet.")
+    try:
+        customers = manager.read_table_from_file(crm.DATAFILE)
+        name = view.get_input('Name')
+        options = ['Yes', 'No']
+        x = view.print_menu('Are you sure to delete?', options)
+
+        for customer in customers:
+            if customer[1] == name:
+                customers.remove(customer)
+                break
+
+        manager.write_table_to_file(crm.DATAFILE, customers)
+    except:
+        view.print_error_message("Something went wrong.")
 
 
 def get_subscribed_emails():
@@ -49,7 +68,7 @@ def get_subscribed_emails():
                 subscribed.append(customer[2])
         print(subscribed)
     except:
-        view.print_error_message("Not implemented yet.")
+        view.print_error_message("Something went wrong.")
 
 
 def run_operation(option):
