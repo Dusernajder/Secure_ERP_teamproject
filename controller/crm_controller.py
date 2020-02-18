@@ -5,9 +5,21 @@ from model import data_manager as manager
 
 
 def list_customers():
+    # TODO: Awaiting for view.terminal.print_table to be done, until then it remains wrecked.
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
-        return [customer[1] for customer in customers]
+        print('Customers:')
+        util.generate_id()
+        for customer in customers:
+            subscribed = 'yes' if customer[3] == '1' else 'no'
+
+            table = (f"  id - {customer[0]}\n"
+                     f"  email - {customer[2]}\n"
+                     f"  subscribed - {subscribed}")
+
+            print(customer[1])
+            print(table)
+
     except:
         view.print_error_message("Something went wrong.")
 
@@ -19,7 +31,6 @@ def add_customer():
         data = view.get_inputs(labels)
         data.insert(0, util.generate_id())
         customers.append(data)
-        # print(customers)
         manager.write_table_to_file(crm.DATAFILE, customers)
     except:
         view.print_error_message("Something went wrong.")
@@ -46,8 +57,6 @@ def delete_customer():
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
         name = view.get_input('Name')
-        options = ['Yes', 'No']
-        x = view.print_menu('Are you sure to delete?', options)
 
         for customer in customers:
             if customer[1] == name:
@@ -63,10 +72,14 @@ def get_subscribed_emails():
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
         subscribed = []
+
         for customer in customers:
+
             if customer[3] == '1':
-                subscribed.append(customer[2])
-        print(subscribed)
+                table = (f"name: {customer[1]}\n"
+                         f"  email - {customer[2]}")
+                print(table)
+
     except:
         view.print_error_message("Something went wrong.")
 
