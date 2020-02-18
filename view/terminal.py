@@ -1,3 +1,6 @@
+import os
+
+
 def print_menu(title, list_options):
     """Prints options in standard menu format like this:
 
@@ -80,3 +83,8 @@ def print_error_message(message):
         message: str - the error message
     """
     raise Exception(message)
+
+
+def clear():
+    """ Clears screen. """
+    os.system('clear')
