@@ -1,24 +1,51 @@
 from model.hr import hr
 from view import terminal as view
+from model import data_manager
 
 
 def list_employees():
-    view.print_error_message("Not implemented yet.")
+    employees = data_manager.read_table_from_file(hr.DATAFILE)
+    print(employees)
+    return employees
 
 
 def add_employee():
-    view.print_error_message("Not implemented yet.")
+    all_employees = list_employees()
+    all_employees.append(view.get_inputs(['ID', 'user_name', 'birth_date', 'department', 'clearance']))
+    data_manager.write_table_to_file(hr.DATAFILE, all_employees)
 
 
 def update_employee():
-    view.print_error_message("Not implemented yet.")
+    employees = list_employees()
+    for index, employee in enumerate(employees, 1):
+        print(f'{index}. {", ".join(employee)}')
+
+    employee = int(view.get_input('Which employee do you want to update? Select number: '))
+
+    for index, data in enumerate(employees[employee-1], 1):
+        print(f'{index}. {data}')
+
+    employee_data = int(view.get_input('Which data to update? Select a number: '))
+    updated_data = view.get_input('Enter the data')
+
+    employees[employee-1][employee_data-1] = updated_data
+    data_manager.write_table_to_file(hr.DATAFILE, employees)
 
 
 def delete_employee():
-    view.print_error_message("Not implemented yet.")
+    employees = list_employees()
+    for index, employee in enumerate(employees, 1):
+        print(f'{index}. {", ".join(employee)}')
+
+    employee = int(view.get_input('Which employee do you want to delete? Select a number: '))
+    employees.remove(employees[employee-1])
+
+    data_manager.write_table_to_file(hr.DATAFILE, employees)
 
 
 def get_oldest_and_youngest():
+    employees = list_employees()
+
     view.print_error_message("Not implemented yet.")
 
 
@@ -31,11 +58,36 @@ def next_birthdays():
 
 
 def count_employees_with_clearance():
-    view.print_error_message("Not implemented yet.")
+    clearance_index = 4
+    clearances = [people[clearance_index] for people in list_employees()]
+
+    clearance_dict = {}
+    for i in clearances:
+        if i in clearance_dict:
+            clearance_dict[i] += 1
+        else:
+            clearance_dict[i] = 1
+
+    input_level = int(view.get_input('Enter the clearance level: '))
+    print(sum(int(clearance_dict[level]) for level in clearance_dict if int(level) >= input_level))
 
 
 def count_employees_per_department():
-    view.print_error_message("Not implemented yet.")
+    department_index = 3
+    departments = [people[department_index] for people in list_employees()]
+
+    department_dict = {}
+    for i in departments:
+        if i in department_dict:
+            department_dict[i] += 1
+        else:
+            department_dict[i] = 1
+
+    sorted_departments = sorted([x for x in department_dict.items()], key=lambda num: num[1], reverse=True)
+    department_index = 0
+    number_index = 1
+    for i in range(len(sorted_departments)):
+        print(f'The {sorted_departments[i][department_index]} department has {sorted_departments[i][number_index]} employee(s)')
 
 
 def run_operation(option):
