@@ -2,6 +2,7 @@ from model.sales import sales
 from view import terminal as view
 from model import data_manager as manager
 from model import util
+from datetime import date
 
 
 def list_transactions():
@@ -12,9 +13,10 @@ def list_transactions():
 
 def add_transaction():
     transactions = manager.read_table_from_file(sales.DATAFILE)
-    labels = ["Customer id", "Product", "Price", "Transaction date"]
+    labels = ["Customer id", "Product", "Price"]
     data = view.get_inputs(labels)
     data.insert(0, util.generate_id())
+    data.append(str(date.today()))
     transactions.append(data)
     # [print(transaction) for transaction in transactions]
     manager.write_table_to_file(sales.DATAFILE, transactions)
@@ -47,7 +49,12 @@ def get_biggest_revenue_transaction():
 
 
 def get_biggest_revenue_product():
-    view.print_error_message("Not implemented yet.")
+    transactions = manager.read_table_from_file(sales.DATAFILE)
+    biggest_revenue_product = [transactions[0][2], transactions[0][3]]
+    for transaction in transactions:
+        if float(transaction[3]) > float(biggest_revenue_product[1]):
+            biggest_revenue_product = [transaction[2], transaction[3]]
+    print(*biggest_revenue_product)
 
 
 def count_transactions_between():
