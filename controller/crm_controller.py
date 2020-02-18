@@ -9,11 +9,13 @@ def list_customers():
     # TODO: Awaiting for view.terminal.print_table to be done, until then it remains wrecked.
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
+
         print('Customers:')
 
         for customer in customers:
             subscribed = 'yes' if customer[3] == '1' else 'no'
 
+            # Pattern for a table of content
             table = (f"{customer[1]}\n"
                      f"  id - {customer[0]}\n"
                      f"  email - {customer[2]}\n"
@@ -32,6 +34,10 @@ def add_customer():
         labels = ["Name", "Email", "Subscribed"]
         # Ask series of inputs (labels)
         data = view.get_inputs(labels)
+        if data[2] == 'yes':
+            data[2] = '1'
+        elif data[2] == 'no':
+            data[2] = '0'
         # Put id beginning of the line
         data.insert(0, util.generate_id())
         customers.append(data)
