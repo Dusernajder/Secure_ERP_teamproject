@@ -22,7 +22,6 @@ def list_customers():
                      f"  subscribed - {subscribed}")
 
             print(table)
-
     except:
         view.print_error_message("Something went wrong.")
 
@@ -32,12 +31,14 @@ def add_customer():
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
         labels = ["Name", "Email", "Subscribed"]
+
         # Ask series of inputs (labels)
         data = view.get_inputs(labels)
         if data[2] == 'yes':
             data[2] = '1'
         elif data[2] == 'no':
             data[2] = '0'
+
         # Put id beginning of the line
         data.insert(0, util.generate_id())
         customers.append(data)
@@ -50,10 +51,12 @@ def update_customer():
     """ Update customers information (email, subs)"""
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
+
         # Get name as input
         name = view.get_input('Name')
         # Options to change
         list_options = ['email', 'subscription']
+
         view.print_menu('Options', list_options)
         # Selected option from list_options
         option = int(view.get_input('Select module')) + 2
@@ -62,6 +65,7 @@ def update_customer():
             if customer[1] == name:
                 # Update option
                 customer[option] = view.get_input(customer[option])
+
         # Write file
         manager.write_table_to_file(crm.DATAFILE, customers)
     except:
