@@ -86,7 +86,9 @@ def get_input(label):
         label: str - the label before the user prompt
     """
     # TODO: try - except
-    return input(f"{label}: ")
+    ret = input(f"{label}: ")
+    clear()
+    return ret
 
 
 def get_inputs(labels):
@@ -98,6 +100,7 @@ def get_inputs(labels):
     lst = []
     for l in labels:
         lst.append(input(f'{l}: '))
+        clear()
     return lst
 
 
