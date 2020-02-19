@@ -7,8 +7,8 @@ from datetime import date
 
 def list_transactions():
     transactions = manager.read_table_from_file(sales.DATAFILE)
-    [print(transaction) for transaction in transactions]
-    # return [transaction for transaction in transactions]
+    #[print(transaction) for transaction in transactions]
+    return [transaction for transaction in transactions]
 
 
 def add_transaction():
@@ -62,10 +62,13 @@ def count_transactions_between():
     date_from = view.get_input('Date from')
     date_to = view.get_input('Date to')
     transaction_counter = 0
+    list_for_return = []
     for transaction in transactions:
         if date_to >= transaction[4] >= date_from:
             transaction_counter += 1
-    print(f"\nNumber of transactions: {transaction_counter}\n")
+    # print(f"\nNumber of transactions: {transaction_counter}\n")
+    list_for_return.append(['Number of transactions', str(transaction_counter)])
+    return list_for_return
 
 
 def sum_transactions_between():
@@ -73,15 +76,17 @@ def sum_transactions_between():
     date_from = view.get_input('Date from')
     date_to = view.get_input('Date to')
     sum_of_transactions = 0.0
+    list_for_return = []
     for transaction in transactions:
         if date_to >= transaction[4] >= date_from:
             sum_of_transactions += float(transaction[3])
-    print(f"\nSum of transactions: {sum_of_transactions}\n")
+    list_for_return.append(['Sum of transactions', str(sum_of_transactions)])
+    return list_for_return
 
 
 def run_operation(option):
     if option == 1:
-        list_transactions()
+        view.print_table(list_transactions(), sales.HEADERS)
     elif option == 2:
         add_transaction()
     elif option == 3:
@@ -93,9 +98,9 @@ def run_operation(option):
     elif option == 6:
         get_biggest_revenue_product()
     elif option == 7:
-        count_transactions_between()
+        view.print_table(count_transactions_between(), sales.HEADERS_two)
     elif option == 8:
-        sum_transactions_between()
+        view.print_table(sum_transactions_between(), sales.HEADERS_two)
     elif option == 0:
         return
     else:
