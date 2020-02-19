@@ -58,11 +58,25 @@ def get_biggest_revenue_product():
 
 
 def count_transactions_between():
-    view.print_error_message("Not implemented yet.")
+    transactions = manager.read_table_from_file(sales.DATAFILE)
+    date_from = view.get_input('Date from')
+    date_to = view.get_input('Date to')
+    transaction_counter = 0
+    for transaction in transactions:
+        if date_to >= transaction[4] >= date_from:
+            transaction_counter += 1
+    print(f"\nNumber of transactions: {transaction_counter}\n")
 
 
 def sum_transactions_between():
-    view.print_error_message("Not implemented yet.")
+    transactions = manager.read_table_from_file(sales.DATAFILE)
+    date_from = view.get_input('Date from')
+    date_to = view.get_input('Date to')
+    sum_of_transactions = 0.0
+    for transaction in transactions:
+        if date_to >= transaction[4] >= date_from:
+            sum_of_transactions += float(transaction[3])
+    print(f"\nSum of transactions: {sum_of_transactions}\n")
 
 
 def run_operation(option):
