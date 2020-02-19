@@ -9,19 +9,7 @@ def list_customers():
     # TODO: Awaiting for view.terminal.print_table to be done, until then it remains wrecked.
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
-
-        print('Customers:')
-
-        for customer in customers:
-            subscribed = 'yes' if customer[3] == '1' else 'no'
-
-            # Pattern for a table of content
-            table = (f"{customer[1]}\n"
-                     f"  id - {customer[0]}\n"
-                     f"  email - {customer[2]}\n"
-                     f"  subscribed - {subscribed}")
-
-            print(table)
+        view.print_table(customers, crm.HEADERS)
     except:
         view.print_error_message("Something went wrong.")
 
@@ -96,12 +84,9 @@ def get_subscribed_emails():
     # TODO: Awaiting for view.terminal.print_table to be done, until then it remains wrecked.
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
-        for customer in customers:
 
-            if customer[3] == '1':
-                table = (f"name: {customer[1]}\n"
-                         f"  email - {customer[2]}")
-                print(table)
+        subscribed = [customer for customer in customers if customer[3] == '1']
+        view.print_table(subscribed, crm.HEADERS)
     except:
         view.print_error_message("Something went wrong.")
 
