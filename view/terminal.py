@@ -45,14 +45,15 @@ def print_general_results(result, label):
 # |--------|------------|----------|
 # |   1    | Sidewinder | missile  |
 # \--------------------------------/
-def print_table(table):
+def print_table(table, headers):
     """Prints tabular data like above.
 
     Args:
         table: list of lists - the table to print out
     """
-    headers = table[0]
-    length_elements = [[len(x) for x in table[i]] for i in range(len(table))]
+    full_table = table
+    full_table.insert(0, headers)
+    length_elements = [[len(x) for x in full_table[i]] for i in range(len(full_table))]
     longest_elements = [0 for _ in range(len(headers))]
 
     space_out_by = 2
@@ -64,13 +65,13 @@ def print_table(table):
     chart = [int(x) * '-' for x in longest_elements]
 
     print(f'/{"-".join(chart)}\\')
-    for index, employee in enumerate(table):
+    for index, employee in enumerate(full_table):
         string = ""
         for i in range(len(employee)):
             string += f"|{employee[i]:^{longest_elements[i]}}"
 
         print(string + '|')
-        if index == len(table) - 1:
+        if index == len(full_table) - 1:
             print(f'\\{"-".join(chart)}/')
         else:
             print(f'|{"|".join(chart)}|')
