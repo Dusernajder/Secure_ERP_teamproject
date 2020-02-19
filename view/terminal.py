@@ -51,16 +51,18 @@ def print_table(table, headers):
     Args:
         table: list of lists - the table to print out
     """
+    os.system('clear')
+    
     full_table = table
     full_table.insert(0, headers)
     length_elements = [[len(x) for x in full_table[i]] for i in range(len(full_table))]
-    longest_elements = [0 for _ in range(len(headers))]
 
-    space_out_by = 2
+    space_out_by = 15
+    longest_elements = [0 for _ in range(len(headers))]
     for ppl in length_elements:
         for index, char in enumerate(ppl):
             if int(char) > longest_elements[index]:
-                longest_elements[index] = int(char) + space_out_by
+                longest_elements[index] = int(char)+space_out_by
 
     chart = [int(x) * '-' for x in longest_elements]
 
