@@ -1,6 +1,6 @@
 from model.hr import hr
 from view import terminal as view
-from model import data_manager
+from model import data_manager, util
 from datetime import datetime
 
 
@@ -11,7 +11,9 @@ def list_employees():
 
 def add_employee():
     all_employees = data_manager.read_table_from_file(hr.DATAFILE)
-    all_employees.append(view.get_inputs(['ID', 'user_name', 'birth_date', 'department', 'clearance']))
+    new_employee = view.get_inputs(['user_name', 'birth_date', 'department', 'clearance'])
+    new_employee.insert(0, util.generate_id())
+    all_employees.append(new_employee)
     data_manager.write_table_to_file(hr.DATAFILE, all_employees)
 
 
