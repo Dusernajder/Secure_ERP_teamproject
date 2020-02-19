@@ -70,7 +70,7 @@ def print_table(table, headers):
     for index, employee in enumerate(full_table):
         string = ""
         for i in range(len(employee)):
-            string += f"|{employee[i]:^{longest_elements[i]}}"
+            string += "|" + employee[i].center(longest_elements[i])
 
         print(string + '|')
         if index == len(full_table) - 1:

@@ -1,6 +1,6 @@
 from model.hr import hr
 from view import terminal as view
-from model import data_manager
+from model import data_manager, util
 from datetime import datetime
 
 
@@ -11,19 +11,23 @@ def list_employees():
 
 def add_employee():
     all_employees = data_manager.read_table_from_file(hr.DATAFILE)
-    all_employees.append(view.get_inputs(['ID', 'user_name', 'birth_date', 'department', 'clearance']))
+    new_employee = view.get_inputs(['user_name', 'birth_date', 'department', 'clearance'])
+    new_employee.insert(0, util.generate_id())
+    all_employees.append(new_employee)
     data_manager.write_table_to_file(hr.DATAFILE, all_employees)
 
 
 def update_employee():
+    list_employees()
     employees = data_manager.read_table_from_file(hr.DATAFILE)
+    ID_index = 0
     for index, employee in enumerate(employees, 1):
-        print(f'{index}. {", ".join(employee)}')
+        print(f'{index}. {employee[ID_index]}')
 
     employee = int(view.get_input('Which employee do you want to update? Select number: '))
-
+    headers = hr.HEADERS
     for index, data in enumerate(employees[employee-1], 1):
-        print(f'{index}. {data}')
+        print(f'{index}. {headers[index-1]}')
 
     employee_data = int(view.get_input('Which data to update? Select a number: '))
     updated_data = view.get_input('Enter the data')
@@ -33,9 +37,11 @@ def update_employee():
 
 
 def delete_employee():
+    list_employees()
     employees = data_manager.read_table_from_file(hr.DATAFILE)
+    ID_index = 0
     for index, employee in enumerate(employees, 1):
-        print(f'{index}. {", ".join(employee)}')
+        print(f'{index}. {employee[ID_index]}')
 
     employee = int(view.get_input('Which employee do you want to delete? Select a number: '))
     employees.remove(employees[employee-1])
@@ -50,9 +56,10 @@ def get_oldest_and_youngest():
     sorted_departments = sorted([x for x in employees], key=sorted_key, reverse=False)
     oldest = sorted_departments[0][1]
     youngest = sorted_departments[-1][1]
+    print("\n")
     print(f'The oldest employee is: {oldest}')
     print(f'The youngest employee is: {youngest}')
-    print(sorted_departments)
+    print("\n")
 
 
 def get_average_age():
@@ -69,7 +76,7 @@ def get_average_age():
         list_of_ages.append(int(difference.days//365.25))
 
     average = sum(list_of_ages)//len(list_of_ages)
-    print(f' The average age of employees is: {average}')
+    print(f'\n The average age of employees is: {average}\n')
 
 
 def next_birthdays():
@@ -84,7 +91,7 @@ def next_birthdays():
     input_sum_days += day
 
     employees = data_manager.read_table_from_file(hr.DATAFILE)
-
+    print("\n")
     for employee in employees:
         employee_month = int(employee[2].split('-')[1])
         employee_day = int(employee[2].split('-')[2])
@@ -98,6 +105,7 @@ def next_birthdays():
 
         if employee_sum_day in range(minus_two_weeks, plus_two_weeks+1):
             print(person_name)
+    print("\n")
 
 
 def count_employees_with_clearance():
@@ -113,7 +121,8 @@ def count_employees_with_clearance():
             clearance_dict[i] = 1
 
     input_level = int(view.get_input('Enter the clearance level: '))
-    print(sum(int(clearance_dict[level]) for level in clearance_dict if int(level) >= input_level))
+    clearance_sum = sum(int(clearance_dict[level]) for level in clearance_dict if int(level) >= input_level)
+    print(f'\nTotal number of people with level {input_level} clearance are: {clearance_sum}\n')
 
 
 def count_employees_per_department():
@@ -132,7 +141,9 @@ def count_employees_per_department():
     department_index = 0
     number_index = 1
     for i in range(len(sorted_departments)):
-        print(f'The {sorted_departments[i][department_index]} department has {sorted_departments[i][number_index]} employee(s)')
+        department = sorted_departments[i][department_index]
+        num = sorted_departments[i][number_index]
+        print(f'\nThe {department} department has {num} employee(s)\n')
 
 
 def run_operation(option):
