@@ -6,7 +6,6 @@ from model import data_manager as manager
 
 def list_customers():
     """ Print customers """
-    # TODO: Awaiting for view.terminal.print_table to be done, until then it remains wrecked.
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
         view.print_table(customers, crm.HEADERS)
@@ -62,7 +61,6 @@ def update_customer():
 
 def delete_customer():
     """ Deletes customer by its name """
-
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
         # Get name as input
@@ -81,7 +79,6 @@ def delete_customer():
 
 def get_subscribed_emails():
     """ Prints emails of subscribed personels"""
-    # TODO: Awaiting for view.terminal.print_table to be done, until then it remains wrecked.
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
 
