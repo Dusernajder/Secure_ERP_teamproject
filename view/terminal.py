@@ -51,7 +51,29 @@ def print_table(table):
     Args:
         table: list of lists - the table to print out
     """
-    pass
+    headers = table[0]
+    length_elements = [[len(x) for x in table[i]] for i in range(len(table))]
+    longest_elements = [0 for _ in range(len(headers))]
+
+    space_out_by = 2
+    for ppl in length_elements:
+        for index, char in enumerate(ppl):
+            if int(char) > longest_elements[index]:
+                longest_elements[index] = int(char) + space_out_by
+
+    chart = [int(x) * '-' for x in longest_elements]
+
+    print(f'/{"-".join(chart)}\\')
+    for index, employee in enumerate(table):
+        string = ""
+        for i in range(len(employee)):
+            string += f"|{employee[i]:^{longest_elements[i]}}"
+
+        print(string + '|')
+        if index == len(table) - 1:
+            print(f'\\{"-".join(chart)}/')
+        else:
+            print(f'|{"|".join(chart)}|')
 
 
 def get_input(label):
