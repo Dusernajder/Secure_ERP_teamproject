@@ -6,8 +6,7 @@ from datetime import datetime
 
 def list_employees():
     employees = data_manager.read_table_from_file(hr.DATAFILE)
-    print(employees)
-    return employees
+    view.print_table(employees, hr.HEADERS)
 
 
 def add_employee():
