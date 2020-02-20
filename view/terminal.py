@@ -51,7 +51,7 @@ def print_table(table, headers):
     Args:
         table: list of lists - the table to print out
     """
-    os.system('clear')
+    clear()
     
     full_table = table
     full_table.insert(0, headers)
@@ -86,9 +86,9 @@ def get_input(label):
         label: str - the label before the user prompt
     """
     # TODO: try - except
-    ret = input(f"{label}: ")
-    clear()
-    return ret
+    spam = input(f"{label}: ")
+    print()
+    return spam
 
 
 def get_inputs(labels):
@@ -100,7 +100,7 @@ def get_inputs(labels):
     lst = []
     for l in labels:
         lst.append(input(f'{l}: '))
-        clear()
+        print()
     return lst
 
 
