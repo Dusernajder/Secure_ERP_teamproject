@@ -35,12 +35,12 @@ def add_customer():
 
 
 def update_customer():
-    """ Update customers information (email, subs)"""
+    """ Update customers information (email, subs) """
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
 
         # Get name as input
-        name = view.get_input('Name')
+        id = view.get_input('ID')
         # Options to change
         list_options = ['email', 'subscription']
 
@@ -49,7 +49,7 @@ def update_customer():
         option = int(view.get_input('Select module')) + 2
 
         for customer in customers:
-            if customer[1] == name:
+            if customer[0] == id:
                 # Update option
                 customer[option] = view.get_input(customer[option])
 
