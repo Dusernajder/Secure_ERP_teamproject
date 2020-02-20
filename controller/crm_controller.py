@@ -6,6 +6,7 @@ from model import data_manager as manager
 
 def list_customers():
     """ Print customers """
+
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
         view.print_table(customers, crm.HEADERS)
@@ -15,12 +16,15 @@ def list_customers():
 
 def add_customer():
     """ Add a customer to the crm.csv file """
+
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
+        # Necessary information of the customer
         labels = ["Name", "Email", "Subscribed"]
-
         # Ask series of inputs (labels)
         data = view.get_inputs(labels)
+
+        # For input use words instead of digits
         if data[2] == 'yes':
             data[2] = '1'
         elif data[2] == 'no':
@@ -36,11 +40,12 @@ def add_customer():
 
 def update_customer():
     """ Update customers information (email, subs) """
+
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
 
-        # Get name as input
-        id = view.get_input('ID')
+        # Get ID as input
+        id = view.get_input('Customer id')
         # Options to change
         list_options = ['email', 'subscription']
 
@@ -61,13 +66,14 @@ def update_customer():
 
 def delete_customer():
     """ Deletes customer by its name """
+
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
         # Get name as input
-        name = view.get_input('Name')
+        id = view.get_input('Customer id')
 
         for customer in customers:
-            if customer[1] == name:
+            if customer[0] == id:
                 # Remove customer by name
                 customers.remove(customer)
                 break
@@ -78,7 +84,8 @@ def delete_customer():
 
 
 def get_subscribed_emails():
-    """ Prints emails of subscribed personels"""
+    """ Prints emails of subscribed personels """
+
     try:
         customers = manager.read_table_from_file(crm.DATAFILE)
 
@@ -89,6 +96,12 @@ def get_subscribed_emails():
 
 
 def run_operation(option):
+    """ Runs selected function based on option.
+
+    :param option :int
+
+    """
+
     if option == 1:
         list_customers()
     elif option == 2:
@@ -106,6 +119,8 @@ def run_operation(option):
 
 
 def display_menu():
+    """ Displays menu. """
+
     options = ["Back to main menu",
                "List customers",
                "Add new customer",
