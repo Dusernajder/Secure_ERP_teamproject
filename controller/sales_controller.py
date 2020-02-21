@@ -45,7 +45,12 @@ def delete_transaction():
 
 
 def get_biggest_revenue_transaction():
-    view.print_error_message("Not implemented yet.")
+    transactions = manager.read_table_from_file(sales.DATAFILE)
+    biggest_transaction = transactions[0]
+    for transaction in transactions:
+        if float(transaction[3]) > float(biggest_transaction[3]):
+            biggest_transaction = transaction[3]
+    print(biggest_transaction)
 
 
 def get_biggest_revenue_product():
